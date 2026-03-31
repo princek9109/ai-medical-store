@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE = "";
+const BASE = import.meta.env.VITE_API_URL || "https://ai-medical-store.onrender.com";
 const api = axios.create({ baseURL: BASE });
 
 export const getMedicines  = (search = "") => api.get(`/medicines/?search=${search}`);
