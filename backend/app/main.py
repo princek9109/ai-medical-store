@@ -2,13 +2,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.db.database import engine
 from app.models.models import Base
+from app.api import medicines, stock, bins
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="AI Medical Store API",
-    description="Phase 1 - Inventory & Database Foundation",
-    version="1.0.0"
+    description="Phase 2 - Inventory & Bin Location System",
+    version="2.0.0"
 )
 
 app.add_middleware(
@@ -19,13 +20,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(medicines.router)
+app.include_router(stock.router)
+app.include_router(bins.router)
+
 @app.get("/")
 def root():
-    return {
-        "message": "AI Medical Store API is running",
-        "phase": "Phase 1 - Foundation",
-        "status": "online"
-    }
+    return {"message": "AI Medical Store API", "phase": "2", "status": "online"}
 
 @app.get("/health")
 def health():
