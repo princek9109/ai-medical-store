@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE = import.meta.env.VITE_API_URL || "https://ai-medical-store.onrender.com";
+const BASE = "https://reimagined-space-eureka-g4wrprvj6rj53wrww-8000.app.github.dev";
 const api = axios.create({ baseURL: BASE });
 
 export const getMedicines  = (search = "") => api.get(`/medicines/?search=${search}`);
@@ -17,3 +17,16 @@ export const getExpiryAlerts   = () => api.get("/stock/alerts/expiry");
 export const getLowStockAlerts = () => api.get("/stock/alerts/low-stock");
 export const getStoreLayout    = () => api.get("/bins/layout");
 export const getZones          = () => api.get("/bins/zones");
+
+export const searchDrugs        = (q) => api.get(`/search/drugs?q=${encodeURIComponent(q)}`);
+export const instantSearch      = (q) => api.get(`/search/drugs/instant?q=${encodeURIComponent(q)}`);
+
+export const createPrescription = (data) => api.post("/prescriptions/", data);
+export const listPrescriptions  = (status) => api.get("/prescriptions/", { params: status ? { status } : {} });
+export const getPrescription    = (id) => api.get(`/prescriptions/${id}`);
+export const confirmItem        = (rxId, itemId, stockId) =>
+  api.patch(`/prescriptions/${rxId}/items/${itemId}/confirm?stock_id=${stockId}`);
+
+export const createBill         = (data) => api.post("/billing/", data);
+export const listBills          = () => api.get("/billing/");
+export const getBill            = (id) => api.get(`/billing/${id}`);
